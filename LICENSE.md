@@ -1,6 +1,6 @@
 Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND)
 
-Copyright (c) [2024] [Konstantinos Mylonas]
+Copyright (c) 2024 Konstantinos Mylonas
 
 All files in this repository are licensed under the Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License.
 
