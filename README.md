@@ -1,6 +1,5 @@
 # master_thesis_latex
 LaTeX directory for diploma thesis report
-Konstantinos Mylonas 2024
 
 ## Install Latex on various platforms
 
