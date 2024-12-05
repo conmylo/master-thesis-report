@@ -1,0 +1,52 @@
+\section{Συγκριτικά Αποτελέσματα}
+\label{sec:experiments_comparative}
+
+Η τέταρτη φάση των πειραμάτων έδειξε σημαντικές βελτιώσεις αλλά και προκλήσεις στη χρήση της συνάρτησης \textit{confidence level}. Παρακάτω παρουσιάζονται ποσοτικοποιημένες παρατηρήσεις βασισμένες στα πειραματικά δεδομένα:
+
+\begin{itemize}
+    \item \textbf{Μείωση του FAR και διατήρηση του FRR:}
+    \begin{itemize}
+        \item Στο βασικό πλέγμα υπερπαραμέτρων 
+        \[
+        \nu \in \{0.001, 0.005, 0.01\}, \quad \gamma \in \{0.05, 0.07, 0.1, 0.2, 0.5\}
+        \]
+        παρατηρήθηκε \textbf{μέσο FAR 42.55\%} και \textbf{μέσο FRR 31.94\%}.
+        \item Όταν εισήχθησαν χαμηλότερες τιμές \textit{gamma} (\(0.15\)), το \textbf{FAR αυξήθηκε σε 44.29\%}, ενώ το \textbf{FRR μειώθηκε σε 30.20\%}, δείχνοντας βελτίωση ευαισθησίας για γνήσιους χρήστες, αλλά αύξηση της πιθανότητας αποδοχής impostors.
+        \item Με την αφαίρεση της τιμής \(\gamma = 0.5\), το \textbf{FAR μειώθηκε σε 59.52\%} και το \textbf{FRR μειώθηκε σε 17.80\%}, καταδεικνύοντας ότι η αφαίρεση μεγάλων τιμών \textit{gamma} μειώνει την αυστηρότητα χωρίς αύξηση των ψευδών αποδοχών.
+    \end{itemize}
+
+    \item \textbf{Βελτίωση MAPBL-G και MAPBL-I:}
+    \begin{itemize}
+        \item Η χρήση των παραμέτρων \textit{base increase} 0.09 και \textit{base decrease} 0.08 βελτίωσε τη σταθερότητα του συστήματος. Το \textbf{MAPBL-G} μειώθηκε από \textbf{75.41} στο βασικό πλέγμα σε \textbf{49.87}, ενώ το \textbf{MAPBL-I} παρέμεινε σταθερό γύρω στο \textbf{6.85}.
+        \item Όταν χρησιμοποιήθηκαν πιο αυστηρές ρυθμίσεις (\textit{confidence threshold} 0.3), το \textbf{MAPBL-G} μειώθηκε δραματικά σε \textbf{7.35}, ενώ το \textbf{MAPBL-I} έπεσε σε μόλις \textbf{1.70}, γεγονός που υποδηλώνει αυξημένη αυστηρότητα έναντι impostors, εις βάρος των γνήσιων χρηστών.
+    \end{itemize}
+
+    \item \textbf{Σύγκριση ρυθμίσεων γ-τιμών:}
+    \begin{itemize}
+        \item Όταν χρησιμοποιήθηκαν οι τιμές \textit{gamma} \(0.3\) και \(0.15\) ταυτόχρονα, το \textbf{FAR μειώθηκε σε 38.40\%}, αλλά το \textbf{FRR αυξήθηκε σε 35.87\%}.
+        \item Με μόνο την τιμή \(\gamma = 0.15\), το \textbf{FAR αυξήθηκε σε 44.29\%}, δείχνοντας ότι οι χαμηλές τιμές \textit{gamma} χωρίς συνδυασμό με άλλες παραμέτρους αυξάνουν τις ψευδείς αποδοχές.
+        \item Στην περίπτωση που η τιμή \(\gamma = 0.3\) προστέθηκε στο πλέγμα, το \textbf{MAPBL-I μειώθηκε σε 2.61}, ενώ το \textbf{MAPBL-G} βελτιώθηκε σε \textbf{40.25}, γεγονός που υποδηλώνει καλύτερη απόδοση του συστήματος συνολικά.
+    \end{itemize}
+
+    \item \textbf{Ανάλυση ευαισθησίας συστήματος:}
+    \begin{itemize}
+        \item Με βάση τα διαφορετικά πλέγματα υπερπαραμέτρων, οι αυστηρότερες τιμές \textit{confidence threshold} μειώνουν δραστικά τις αποδεκτές προτροπές από impostors, όπως φάνηκε με \textbf{MAPBL-I 1.70} στην πιο αυστηρή ρύθμιση.
+        \item Οι πιο χαλαρές ρυθμίσεις (\textit{confidence boost} +0.03) αύξησαν το \textbf{MAPBL-G} σε \textbf{123.25}, ενώ διατήρησαν το \textbf{MAPBL-I} κοντά στο \textbf{6.85}, ενισχύοντας την αποδοτικότητα για γνήσιους χρήστες.
+    \end{itemize}
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{images/chapter5/5.5compareChapters1-3.png}
+    \caption{Σύγκριση FAR \& FRR στο \autoref{sec:experiments_phase1} και στο \autoref{sec:experiments_phase3}}
+    \label{fig:chapter5_image55comparisonChapters13}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{images/chapter5/55comparisonMAPBL.png}
+    \caption{Σύγκριση Mean Accepted Prompts Before Locking for Impostors στο \autoref{sec:experiments_phase3} με το αρχικό πλέγμα υπερπαραμέτρων, στο \autoref{sec:experiments_phase3} με το δεύτερο πλέγμα υπερπαραμέτρων και στο στο \autoref{sec:experiments_phase4} με την ενσωμάτωση της συνάρτησης Confidence Level}
+    \label{fig:chapter5_image55comparisonMAPBL}
+\end{figure}
+
+\textbf{Συμπέρασμα:} Η συνάρτηση \textit{confidence level} απέδειξε την ευελιξία της στη βελτίωση του συστήματος. Οι αλλαγές στις τιμές των παραμέτρων επηρεάζουν δραστικά το FAR και το FRR, ενώ παρέχουν δυνατότητα προσαρμογής στις απαιτήσεις ασφάλειας ή χρηστικότητας, καθιστώντας το σύστημα κατάλληλο για διάφορα σενάρια χρήσης.

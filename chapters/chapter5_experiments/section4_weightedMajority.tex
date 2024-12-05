@@ -1,0 +1,124 @@
+\section{Τρίτη Φάση Πειραμάτων: Weighted Majority Voting}
+\label{sec:experiments_phase3}
+
+Η χρήση της μεθόδου \emph{Weighted Majority Voting} σε συνδυασμό με τη συνάρτηση \emph{Certainty Level} παρέχει μια πιο λεπτομερή και προσαρμοστική προσέγγιση στη διαδικασία λήψης αποφάσεων. Σε αυτό το υποκεφάλαιο παρουσιάζονται τα αποτελέσματα που προέκυψαν από τη χρήση των παραπάνω μεθόδων και η αξιολόγηση της απόδοσής τους σε σύγκριση με την \emph{Basic Majority Voting}.
+
+\subsection{Πειραματική Διαδικασία}
+\subsubsection{Διαδικασία Ελέγχου}
+Με παρόμοιο τρόπο με νωρίτερα, για κάθε χρήστη του συστήματος, δημιουργούνται και εκπαιδεύονται πολλαπλά μοντέλα \emph{One-Class SVM} με διαφορετικούς συνδυασμούς υπερπαραμέτρων. Οι παράμετροι που χρησιμοποιούνται καθ' όλη τη διάρκεια της διαδικασίας είναι:
+
+\begin{itemize}
+    \item \textbf{Νu} (\emph{nu}): Οι τιμές που εξετάζονται είναι:
+    \[
+    \nu \in \{0.001, 0.005, 0.01, 0.05, 0.13, 0.25\}
+    \]
+    \item \textbf{Γάμμα} ($\gamma$): Οι τιμές που εξετάζονται είναι:
+    \[
+    \gamma \in \{0.00005, 0.0009, 0.0005, 0.001, 0.005, 0.01, 0.05, 0.07, 0.1, 0.15, 0.2, 0.3, 0.5\}
+    \]
+\end{itemize}
+
+\subsubsection{Καταγραφή και Ανάλυση Αποτελεσμάτων}
+Τα αποτελέσματα που προέκυψαν από τη μέθοδο \emph{Weighted Majority Voting} με τη χρήση της συνάρτησης \emph{Certainty Level} παρουσιάζονται στους Πίνακες ~\ref{tab:results_weighted_voting}, ~\ref{tab:second_grid_results}, ~\ref{tab:third_grid_results}. Οι μετρικές που αξιολογούνται περιλαμβάνουν:
+\begin{itemize}
+    \item \emph{False Acceptance Rate (FAR)}: Ποσοστό προτροπών εισβολέων που λανθασμένα χαρακτηρίστηκαν ως γνήσιες.
+    \item \emph{False Rejection Rate (FRR)}: Ποσοστό γνήσιων προτροπών που λανθασμένα απορρίφθηκαν.
+    \item Μέσος αριθμός μη γνήσιων προτροπών που γίνονται αποδεκτές πριν από το κλείδωμα.
+\end{itemize}
+
+\subsection{Αποτελέσματα}
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|c|c|c|}
+\hline
+\textbf{User} & \textbf{FAR (\%)} & \textbf{FRR (\%)} & \textbf{Mean Accepted Prompts by Impostor} \\ \hline
+justinbieber & 88.81 & 7.80 & $\infty$ \\ \hline
+taylorswift13 & 86.14 & 6.60 & $\infty$ \\ \hline
+\textbf{BarackObama} & \textbf{28.60} & \textbf{3.49} & \textbf{3.77} \\ \hline
+YouTube & 73.59 & 5.41 & $\infty$ \\ \hline
+ladygaga & 80.29 & 6.38 & $\infty$ \\ \hline
+TheEllenShow & 67.44 & 7.82 & $\infty$ \\ \hline
+Twitter & 68.60 & 7.56 & $\infty$ \\ \hline
+jtimberlake & 80.11 & 9.41 & $\infty$ \\ \hline
+britneyspears & 83.89 & 8.17 & $\infty$ \\ \hline
+Cristiano & 78.72 & 9.31 & $\infty$ \\ \hline
+\textbf{cnnbrk} & \textbf{20.58} & \textbf{5.42} & \textbf{2.00} \\ \hline
+jimmyfallon & 78.25 & 9.17 & $\infty$ \\ \hline
+shakira & 71.24 & 6.86 & $\infty$ \\ \hline
+\textbf{instagram} & \textbf{52.20} & \textbf{7.24} & \textbf{29.00} \\ \hline
+\end{tabular}
+\caption{Αποτελέσματα για $\nu \in \{0.001, 0.005\}$ και $\gamma \in \{0.05, 0.1\}$ που δείχνουν τις μετρικές FAR, FRR και τον μέσο αριθμό αποδεκτών προτροπών από εισβολείς.}
+\label{tab:results_weighted_voting}
+\end{table}
+
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|c|c|c|}
+\hline
+\textbf{User} & \textbf{FAR (\%)} & \textbf{FRR (\%)} & \textbf{Mean Accepted Prompts by Impostor} \\ \hline
+justinbieber & 57.63 & 19.66 & $\infty$ \\ \hline
+taylorswift13 & 65.68 & 29.04 & $\infty$ \\ \hline
+\textbf{BarackObama} & \textbf{11.63} & \textbf{27.21} & \textbf{0.87} \\ \hline
+YouTube & 39.39 & 30.95 & 10.31 \\ \hline
+ladygaga & 51.01 & 30.14 & $\infty$ \\ \hline
+\textbf{TheEllenShow} & \textbf{32.98} & \textbf{29.39} & \textbf{5.74} \\ \hline
+Twitter & 41.57 & 29.94 & 11.00 \\ \hline
+jtimberlake & 52.96 & 34.68 & 16.50 \\ \hline
+britneyspears & 53.12 & 28.61 & $\infty$ \\ \hline
+Cristiano & 49.20 & 30.85 & 6.00 \\ \hline
+\textbf{cnnbrk} & \textbf{4.69} & \textbf{40.43} & \textbf{0.29} \\ \hline
+jimmyfallon & 42.43 & 33.90 & 16.00 \\ \hline
+shakira & 33.77 & 32.19 & 5.62 \\ \hline
+\textbf{instagram} & \textbf{23.00} & \textbf{29.46} & \textbf{2.50} \\ \hline
+\end{tabular}
+\caption{Αποτελέσματα για $\nu \in \{0.0001, 0.0005, 0.001\}$ και $\gamma \in \{0.05, 0.1, 0.5\}$ που δείχνουν τις μετρικές FAR, FRR και τον μέσο αριθμό αποδεκτών προτροπών από εισβολείς.}
+\label{tab:second_grid_results}
+\end{table}
+
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|c|c|c|}
+\hline
+\textbf{User} & \textbf{FAR (\%)} & \textbf{FRR (\%)} & \textbf{Mean Accepted Prompts by Impostor} \\ \hline
+justinbieber & 62.37 & 21.69 & 23.00 \\ \hline
+taylorswift13 & 65.02 & 25.74 & 28.14 \\ \hline
+\textbf{BarackObama} & \textbf{9.53} & \textbf{29.07} & \textbf{0.34} \\ \hline
+YouTube & 46.54 & 27.92 & 4.89 \\ \hline
+ladygaga & 51.59 & 27.54 & 6.85 \\ \hline
+TheEllenShow & 38.69 & 26.22 & 2.86 \\ \hline
+Twitter & 41.86 & 32.56 & 3.51 \\ \hline
+jtimberlake & 52.42 & 33.60 & 7.80 \\ \hline
+britneyspears & 56.25 & 26.92 & 11.14 \\ \hline
+Cristiano & 51.06 & 29.79 & 7.11 \\ \hline
+\textbf{cnnbrk} & \textbf{5.42} & \textbf{37.91} & \textbf{0.18} \\ \hline
+jimmyfallon & 43.71 & 30.92 & 4.02 \\ \hline
+shakira & 34.04 & 32.19 & 2.22 \\ \hline
+instagram & 23.77 & 31.27 & 1.15 \\ \hline
+\end{tabular}
+\caption{Αποτελέσματα για $\nu \in \{0.001, 0.005, 0.01\}$ και $\gamma \in \{0.05, 0.07, 0.1, 0.2, 0.5\}$: FAR, FRR και Μέσος Αριθμός Αποδεκτών Προτροπών από Εισβολείς.}
+\label{tab:third_grid_results}
+\end{table}
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{images/chapter5/5.3FAR.png}
+    \caption{FAR ανά χρήστη για διαφορετικά πλέγματα παραμέτρων}
+    \label{fig:chapter5_image53FAR}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{images/chapter5/5.3MAPBL.png}
+    \caption{Mean Accepted Prompts Before Locking for Impostors ανά χρήστη για διαφορετικά πλέγματα παραμέτρων}
+    \label{fig:chapter5_image53MAPBL}
+\end{figure}
+
+\subsection{Παρατηρήσεις}
+Η ανάλυση των αποτελεσμάτων για τη λειτουργία της μεθόδου weighted majority voting σε συνδυασμό με τη certainty level function αποδεικνύει τη σταδιακή βελτίωση της απόδοσης σε σχέση με τις προηγούμενες φάσεις. Οι τιμές των μετρικών FAR (False Acceptance Rate) και FRR (False Rejection Rate) αναδεικνύουν τη δυνατότητα του συστήματος να επιτυγχάνει καλύτερη ισορροπία μεταξύ αποδοχής γνήσιων προτροπών και απόρριψης μη γνήσιων. Μάλιστα το FAR μειώθηκε από 80.31\% σε 49.11\%, παρότι το FRR αυξήθηκε από 4,54\% σε 24.00\%.
+
+Συγκεκριμένα, στο τρίτο πλέγμα παραμέτρων ($\nu \in {0.001, 0.005, 0.01}$ και $\gamma \in {0.05, 0.07, 0.1, 0.2, 0.5}$), παρατηρούνται εντυπωσιακά αποτελέσματα, όπως για τον χρήστη \textit{cnnbrk}, όπου η τιμή FAR μειώθηκε στο εξαιρετικά χαμηλό επίπεδο του 5.42\%, με μέση αποδοχή 0.18 prompts από impostors, ενώ το FRR παραμένει σχετικά υψηλό στο 37.91\%. Αυτό υποδεικνύει τη δυνατότητα του συστήματος να εντοπίζει με ακρίβεια μη έγκυρες εισόδους.
+
+Η προσαρμογή των παραμέτρων $\nu$ και $\gamma$ φαίνεται να επηρεάζει άμεσα την απόδοση του συστήματος. Χαμηλότερες τιμές $\nu$ οδηγούν σε χαμηλότερο FAR, ενώ υψηλότερες τιμές $\gamma$ συμβάλλουν στη μείωση του FRR, με προφανή αντίκτυπο στην ακρίβεια και την ευαισθησία του συστήματος. Συνολικά, τα αποτελέσματα αναδεικνύουν την πρόοδο που έχει επιτευχθεί, με την ενσωμάτωση της weighted majority voting, και την επίτευξη βέλτιστων συνδυασμών παραμέτρων που εξισορροπούν τις ανάγκες ακρίβειας και ευαισθησίας.

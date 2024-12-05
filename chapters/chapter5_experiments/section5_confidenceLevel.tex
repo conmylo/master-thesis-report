@@ -1,0 +1,267 @@
+\section{Τέταρτη Φάση Πειραμάτων: Confidence Level Function}
+\label{sec:experiments_phase4}
+
+Η τέταρτη φάση των πειραμάτων επικεντρώνεται στην ενσωμάτωση της συναρτήσης \textit{confidence level}, η οποία αποσκοπεί στη βελτίωση της ακρίβειας και της απόδοσης του συστήματος λήψης αποφάσεων. Η προσέγγιση αυτή επεκτείνει τη μέθοδο της σταθμισμένης πλειοψηφίας, προσθέτοντας έναν επιπλέον δείκτη αξιοπιστίας στις αποφάσεις, βασιζόμενο σε ένα δυναμικά μεταβαλλόμενο επίπεδο εμπιστοσύνης του συστήματος.
+
+\subsection{Πειραματική Διαδικασία}
+Για την αξιολόγηση της ενσωμάτωσης της συναρτήσης \textit{confidence level}, ακολουθήθηκε η εξής διαδικασία:
+\begin{itemize}
+    \item Χρήση του πλέγματος υπερπαραμέτρων:
+    \[
+    \nu \in \{0.001, 0.005, 0.01\}, \quad \gamma \in \{0.05, 0.07, 0.1, 0.2, 0.5\}
+    \]
+    \item Εκτέλεση της διαδικασίας ελέγχου για κάθε συνδυασμό υπερπαραμέτρων και καταγραφή των παρακάτω μετρικών:
+    \begin{itemize}
+        \item \textbf{MAPBL-G}: Μέσος αριθμός αποδεκτών προτροπών από γνήσιους χρήστες πριν την ενεργοποίηση του μηχανισμού κλειδώματος.
+        \item \textbf{MAPBL-I}: Μέσος αριθμός αποδεκτών προτροπών από μη γνήσιους χρήστες (impostors) πριν την ενεργοποίηση του μηχανισμού κλειδώματος.
+    \end{itemize}
+    \item Αξιολόγηση της ακρίβειας και της αξιοπιστίας του συστήματος με βάση τα παραπάνω δεδομένα.
+\end{itemize}
+
+\subsection{Αποτελέσματα}
+Τα αποτελέσματα της πειραματικής διαδικασίας συνοψίζονται στους παρακάτω πίνακες.
+
+Αρχικά βλέπουμε τα αποτελέσματα των περιαμάτων για κάθε χρήστη μεμονωμένα για μια συγκεκριμένη confidence function.
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+\textbf{User} & \textbf{FAR (\%)} & \textbf{FRR (\%)} & \textbf{MAPBL-Genuine} & \textbf{MAPBL-Impostor} \\ \hline
+justinbieber & 62.37 & 21.69 & 64.00 & 23.00 \\ \hline
+taylorswift13 & 65.02 & 25.74 & 78.00 & 28.14 \\ \hline
+\textbf{BarackObama} & \textbf{9.53} & \textbf{29.07} & \textbf{125.00} & \textbf{0.34} \\ \hline
+YouTube & 46.54 & 27.92 & 64.50 & 4.89 \\ \hline
+ladygaga & 51.59 & 27.54 & 95.00 & 6.85 \\ \hline
+\textbf{TheEllenShow} & \textbf{38.69} & \textbf{26.22} & \textbf{124.00} & \textbf{2.86} \\ \hline
+Twitter & 41.86 & 32.56 & 56.00 & 3.51 \\ \hline
+jtimberlake & 52.42 & 33.60 & 20.83 & 7.80 \\ \hline
+britneyspears & 56.25 & 26.92 & 112.00 & 11.14 \\ \hline
+Cristiano & 51.06 & 29.79 & 56.00 & 7.11 \\ \hline
+\textbf{cnnbrk} & \textbf{5.42} & \textbf{37.91} & \textbf{13.12} & \textbf{0.18} \\ \hline
+jimmyfallon & 43.71 & 30.92 & 145.00 & 4.02 \\ \hline
+shakira & 34.04 & 32.19 & 61.00 & 2.22 \\ \hline
+instagram & 23.77 & 31.27 & 60.50 & 1.15 \\ \hline
+\end{tabular}
+\caption{Αποτελέσματα πειραμάτων για την ενσωμάτωση της συνάρτησης \textit{confidence level}.}
+\label{tab:confidence_level_results}
+\end{table}
+
+Αλλάζοντας τις τιμές των μεταβλητών της συνάρτησης \textit{confidence function}, μπορούμε να προσαρμόσουμε την αυστηρότητα της συνάρτησης και τις μετρικές MAPBL-G \& MAPBL-I. Ακολουθούν πίνακες των μετρικών με διαφορετικές τιμές παραμέτρων της confidence level:
+
+\begin{itemize}
+    \item Στον~\autoref{tab:chapter5_primaryResults}, οι τιμές των παραμέτρων είναι:
+    \begin{itemize}
+        \item Base Increase: $0.09$
+        \item Base Decrease: $0.08$
+        \item High-Certainty Boost factor: $0.4$
+        \item Confidence Threshold: $0.3$
+    \end{itemize}
+
+    \item Στον~\autoref{tab:chapter5_tighten}, οι τιμές των παραμέτρων είναι:
+    \begin{itemize}
+        \item Base Increase: $0.07$
+        \item Base Decrease: $0.1$
+        \item High-Certainty Boost factor: $0.5$
+        \item Confidence Threshold: $0.4$
+    \end{itemize}
+
+    \item Στον~\autoref{tab:chapter5_boostValues}, οι τιμές των παραμέτρων είναι:
+    \begin{itemize}
+        \item Base Increase: $0.07$
+        \item Base Decrease: $0.1$
+        \item High-Certainty Boost factor: $1.00$
+        \item Confidence Threshold: $0.4$
+    \end{itemize}
+
+     \item Στον~\autoref{tab:chapter5_relaxationBases}, οι τιμές των παραμέτρων είναι:
+    \begin{itemize}
+        \item Base Increase: $0.1$
+        \item Base Decrease: $0.06$
+        \item High-Certainty Boost factor: $0.5$
+        \item Confidence Threshold: $0.4$
+    \end{itemize}
+
+     \item Στον~\autoref{tab:chapter5_relaxationAll}, οι τιμές των παραμέτρων είναι:
+    \begin{itemize}
+        \item Base Increase: $0.12$
+        \item Base Decrease: $0.09$
+        \item High-Certainty Boost factor: $0.4$
+        \item Confidence Threshold: $0.3$
+    \end{itemize}
+\end{itemize}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|c|}
+\hline
+\textbf{Μετρική}                                 & \textbf{Τιμή}   \\ \hline
+Total Users Tested                               & 14             \\ \hline
+Mean FRR (\%)                                    & 31.94          \\ \hline
+Mean FAR (\%)                                    & 42.55          \\ \hline
+Mean Genuine Rejected Prompts Before Lock       & 75.41          \\ \hline
+Mean Impostor Accepted Prompts Before Lock      & 6.90           \\ \hline
+\end{tabular}
+\caption{Primary Results}
+\label{tab:chapter5_primaryResults}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|c|}
+\hline
+\textbf{Μετρική}                                 & \textbf{Τιμή}   \\ \hline
+Total Users Tested                               & 14             \\ \hline
+Mean FRR (\%)                                    & 39.48          \\ \hline
+Mean FAR (\%)                                    & 34.40          \\ \hline
+Mean Genuine Rejected Prompts Before Lock       & 18.55          \\ \hline
+Mean Impostor Accepted Prompts Before Lock      & 3.03           \\ \hline
+\end{tabular}
+\caption{Tighten Variables' Values}
+\label{tab:chapter5_tighten}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|c|}
+\hline
+\textbf{Μετρική}                                 & \textbf{Τιμή}   \\ \hline
+Total Users Tested                               & 14             \\ \hline
+Mean FRR (\%)                                    & 48.57          \\ \hline
+Mean FAR (\%)                                    & 26.87          \\ \hline
+Mean Genuine Rejected Prompts Before Lock       & 7.35           \\ \hline
+Mean Impostor Accepted Prompts Before Lock      & 1.70           \\ \hline
+\end{tabular}
+\caption{Maximized boost value in confidence function}
+\label{tab:chapter5_boostValues}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|c|}
+\hline
+\textbf{Μετρική}                                 & \textbf{Τιμή}   \\ \hline
+Total Users Tested                               & 14             \\ \hline
+Mean FRR (\%)                                    & 31.12          \\ \hline
+Mean FAR (\%)                                    & 43.74          \\ \hline
+Mean Genuine Rejected Prompts Before Lock       & 49.87          \\ \hline
+Mean Impostor Accepted Prompts Before Lock      & 3.66           \\ \hline
+\end{tabular}
+\caption{Relaxation of base increase and base decrease variables' values}
+\label{tab:chapter5_relaxationBases}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|c|}
+\hline
+\textbf{Μετρική}                                 & \textbf{Τιμή}   \\ \hline
+Total Users Tested                               & 14             \\ \hline
+Mean FRR (\%)                                    & 31.12          \\ \hline
+Mean FAR (\%)                                    & 43.74          \\ \hline
+Mean Genuine Rejected Prompts Before Lock       & 123.25         \\ \hline
+Mean Impostor Accepted Prompts Before Lock      & 6.85           \\ \hline
+\end{tabular}
+\caption{Relaxation of all values}
+\label{tab:chapter5_relaxationAll}
+\end{table}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{images/chapter5/5.4variablesValues.png}
+    \caption{FAR, FRR, MAPBL-G, MAPBL-I για διαφορετικές τιμές των μεταβλητών της συνάρτησης Confidence Level}
+    \label{fig:chapter5_image54variablesValues}
+\end{figure}
+
+Ενδιαφέρουσα είναι και η περίπτωση αλλαγής της υπερπαραμέτρου \textit{gamma} σε συνάρτηση με τις μετρικές που μελετάμε. Παρακάτω ακολουθούν κάποια αποτελέσματα από τέτοιες περιπτώσεις.
+
+% Πίνακας 7: Αλλαγή στις Τιμές Gamma (Όλες οι Τιμές)
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|c|}
+\hline
+\textbf{Μετρική}                                 & \textbf{Τιμή}   \\ \hline
+Total Users Tested                               & 14             \\ \hline
+Mean FRR (\%)                                    & 31.12          \\ \hline
+Mean FAR (\%)                                    & 43.74          \\ \hline
+Mean Genuine Rejected Prompts Before Lock       & 72.38          \\ \hline
+Mean Impostor Accepted Prompts Before Lock      & 6.76           \\ \hline
+\end{tabular}
+\caption{All gamma values}
+\end{table}
+
+% Πίνακας 8: Conf3.py με 0.3 στο gamma grid
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|c|}
+\hline
+\textbf{Μετρική}                                 & \textbf{Τιμή}   \\ \hline
+Total Users Tested                               & 14             \\ \hline
+Mean FRR (\%)                                    & 37.42          \\ \hline
+Mean FAR (\%)                                    & 36.83          \\ \hline
+Mean Genuine Rejected Prompts Before Lock       & 40.25          \\ \hline
+Mean Impostor Accepted Prompts Before Lock      & 2.61           \\ \hline
+\end{tabular}
+\caption{Include 0.3 gamma value on the grid}
+\end{table}
+
+% Πίνακας 9: Conf3.py με 0.15 και 0.3 στο gamma grid
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|c|}
+\hline
+\textbf{Μετρική}                                 & \textbf{Τιμή}   \\ \hline
+Total Users Tested                               & 14             \\ \hline
+Mean FRR (\%)                                    & 35.87          \\ \hline
+Mean FAR (\%)                                    & 38.40          \\ \hline
+Mean Genuine Rejected Prompts Before Lock       & 42.22          \\ \hline
+Mean Impostor Accepted Prompts Before Lock      & 3.03           \\ \hline
+\end{tabular}
+\caption{Include 0.15 and 0.3 on the gamma grid}
+\end{table}
+
+% Πίνακας 10: Conf3.py με 0.15 στο gamma grid
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|c|}
+\hline
+\textbf{Μετρική}                                 & \textbf{Τιμή}   \\ \hline
+Total Users Tested                               & 14             \\ \hline
+Mean FRR (\%)                                    & 30.20          \\ \hline
+Mean FAR (\%)                                    & 44.29          \\ \hline
+Mean Genuine Rejected Prompts Before Lock       & 86.85          \\ \hline
+Mean Impostor Accepted Prompts Before Lock      & 6.08           \\ \hline
+\end{tabular}
+\caption{Include 0.15 on the gamma grid}
+\end{table}
+
+% Πίνακας 11: Gamma χωρίς 0.5
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|c|}
+\hline
+\textbf{Μετρική}                                 & \textbf{Τιμή}   \\ \hline
+Total Users Tested                               & 14             \\ \hline
+Mean FRR (\%)                                    & 17.80          \\ \hline
+Mean FAR (\%)                                    & 59.52          \\ \hline
+Mean Genuine Rejected Prompts Before Lock       & 70.62          \\ \hline
+Mean Impostor Accepted Prompts Before Lock      & 68.00          \\ \hline
+\end{tabular}
+\caption{Remove 0.5 from the gamma grid}
+\end{table}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{images/chapter5/5.4gamma.png}
+    \caption{FAR, FRR, MAPBL-G, MAPBL-I για διαφορετικές τιμές της υπερπαραμέτρου gamma}
+    \label{fig:chapter5_image54gamma}
+\end{figure}
+
+\subsection{Παρατηρήσεις}
+Η ενσωμάτωση της συναρτήσης \textit{confidence level} προσέφερε ποσοτικά σημαντικά οφέλη στις επιδόσεις του συστήματος:
+\begin{itemize}
+    \item \textbf{Μείωση FAR:} Η μέση τιμή του FAR μειώθηκε από 42.55\% σε 26.87\% κατά τις πειραματικές δοκιμές, αποδεικνύοντας ότι το σύστημα μπορεί να αποφεύγει με μεγαλύτερη ακρίβεια τις λανθασμένες αποδοχές μη γνήσιων χρηστών.
+    \item \textbf{Ισορροπία μεταξύ FRR και MAPBL:} Το FRR παρέμεινε σε διαχειρίσιμα επίπεδα με μέση τιμή 31.12\%, ενώ οι μέσοι αριθμοί αποδεκτών προτροπών από impostors (\textbf{MAPBL-I}) μειώθηκαν σημαντικά, επιτυγχάνοντας καλύτερη ισορροπία.
+\end{itemize}
+
+Η παραπάνω προσέγγιση επιβεβαιώνει τη σημασία της χρήσης μιας δυναμικής μεθόδου όπως το \textit{confidence level}.
+

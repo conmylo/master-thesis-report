@@ -1,0 +1,146 @@
+\section{Εξαγωγή Χαρακτηριστικών}
+\label{sec:implementation_features}
+
+Η εξαγωγή χαρακτηριστικών αποτελεί ένα από τα πιο σημαντικά βήματα στη διαδικασία ανάπτυξης ενός συστήματος αυθεντικοποίησης. Τα χαρακτηριστικά που εξάγονται από τα δεδομένα γραφής περιγράφουν μοναδικές πτυχές του στυλ γραφής κάθε χρήστη, επιτρέποντας έτσι την αναγνώρισή τους. Στην παρούσα εργασία, η εξαγωγή χαρακτηριστικών βασίζεται τόσο σε γλωσσικά όσο και σε συμπεριφορικά χαρακτηριστικά, διασφαλίζοντας ότι λαμβάνονται υπόψη η δομή, το περιεχόμενο του κειμένου αλλά και οι ιδιαιτερότητες των συγγραφικών μοτίβων.
+
+Η διαδικασία εξαγωγής περιλαμβάνει τη χρήση βιβλιοθηκών Python, όπως οι \texttt{NLTK\footnote{\url{https://www.nltk.org/}}}, \texttt{textstat\footnote{\url{https://textstat.org/}}}, και \texttt{numpy\footnote{\url{https://numpy.org/}}}, για την ανάλυση και ποσοτικοποίηση γλωσσικών και δομικών χαρακτηριστικών. Στη συνέχεια, τα χαρακτηριστικά αυτά ομαδοποιούνται σε 4 θεματικές κατηγορίες, χαρακτηριστικά που βασίζονται σε χαρακτήρες, λεξιλογικα και συντακτικά χαρακτηριστικά, δείκτες πολυπλοκότητας και αναγνωσιμότητας και δομικοί και στυλιστικοί δείκτες, όπως φαίνεται στο ~\autoref{fig:chapter4_featuresByCategory}, διευκολύνοντας την κατανόηση της συμβολής τους στη διαδικασία αυθεντικοποίησης.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{images/chapter4/featuresByCategory.png}
+    \caption{Τα χαρακτηριστικά που εξάγονται στη παρούσα εργασία}
+    \label{fig:chapter4_featuresByCategory}
+\end{figure}
+
+\subsection{Χαρακτηριστικά που Βασίζονται στους Χαρακτήρες}
+
+\subsubsection{Char Count (Normalized)}
+
+Μετρά τον συνολικό αριθμό χαρακτήρων ενός κειμένου, κανονικοποιημένο με βάση το μήκος των 100 χαρακτήρων:
+\[
+\text{Char Count Norm} = \frac{\text{Total Characters}}{100}
+\]
+Αυτή η μέτρηση εξασφαλίζει συγκρισιμότητα μεταξύ κειμένων διαφορετικών μεγεθών.
+
+\subsubsection{Character N-grams (3-grams) Ratio}
+
+ Υπολογίζει την αναλογία των τριγραμμάτων (3-grams) στους συνολικούς χαρακτήρες:
+\[
+\text{Char 3-grams Ratio} = \frac{\text{Number of 3-grams}}{\text{Total Characters}}
+\]
+Τα τριγράμματα είναι ακολουθίες τριών διαδοχικών χαρακτήρων (π.χ., "the", "igh"), και αποτυπώνουν μοτίβα γραφής του χρήστη.
+
+\subsection{Λεξιλογικά και Συντακτικά Χαρακτηριστικά}
+
+\subsubsection{Stop Word Frequency Ratio}
+
+Υπολογίζει τον αριθμό των \textit{stop words} που περιέχονται σε ένα κείμενο ως ποσοστό του συνολικού αριθμού λέξεων. Η εξίσωση που χρησιμοποιείται είναι η εξής:
+\[
+\text{Stop Word Ratio} = \frac{\text{Stop Words Count}}{\text{Total Words Count}}
+\]
+Τα \textit{stop words} είναι λέξεις όπως: \textit{"the", "is", "in", "it", "of", "and", "to", "a", "that", "with", "as", "for", "on", "at", "by"}. Αυτές οι λέξεις είναι συχνές στη γλώσσα αλλά δεν παρέχουν σημαντικές πληροφορίες για το περιεχόμενο του κειμένου.
+
+Παρά την έλλειψη νοηματικού βάρους, η κατανομή των \textit{stop words} μπορεί να διαφέρει σημαντικά μεταξύ των χρηστών, καθώς επηρεάζεται από τον τρόπο γραφής τους. Για παράδειγμα, ορισμένοι χρήστες μπορεί να έχουν την τάση να χρησιμοποιούν \textit{stop words} πιο συχνά για να συνδέουν φράσεις ή να δημιουργούν ροή στο κείμενο τους, γεγονός που αποτελεί χαρακτηριστικό προσωπικού ύφους.
+
+\subsubsection{Type-Token Ratio (Lexical Diversity)}
+
+Μετρά τη λεξιλογική ποικιλία του κειμένου:
+\[
+\text{Type-Token Ratio} = \frac{\text{Unique Words Count}}{\text{Total Words Count}}
+\]
+Μεγαλύτερη τιμή υποδηλώνει πιο ποικιλόμορφο λεξιλόγιο.
+
+\subsubsection{Part-of-Speech Ratios}
+
+Τα ποσοστά των μερών του λόγου (όπως ουσιαστικά, ρήματα, επίθετα, επιρρήματα) υπολογίζονται ως εξής:
+\[
+\text{POS Ratio} = \frac{\text{POS Count}}{\text{Total Words Count}}
+\]
+Για παράδειγμα, το \textit{Adjective Ratio} αφορά τη συχνότητα των επιθέτων (\textit{JJ}), ενώ το \textit{Verb Ratio} περιλαμβάνει όλες τις μορφές ρημάτων (\textit{VB, VBD, VBG, VBN, VBP, VBZ}).
+
+\subsection{Δείκτες Πολυπλοκότητας και Αναγνωσιμότητας}
+
+\subsubsection{Readability Score (Flesch Reading Ease)}
+
+Ο δείκτης αναγνωσιμότητας \textit{Flesch Reading Ease~\cite{flesch1949art}} υπολογίζεται με βάση την ακόλουθη εξίσωση:
+\[
+\text{Flesch Score} = 206.835 - 1.015 \left( \frac{\text{Total Words}}{\text{Total Sentences}} \right) - 84.6 \left( \frac{\text{Total Syllables}}{\text{Total Words}} \right)
+\]
+Μεγαλύτερες τιμές υποδηλώνουν πιο εύκολα αναγνώσιμα κείμενα.
+
+\subsubsection{Syllable Average}
+
+Ο μέσος όρος συλλαβών ανά λέξη υπολογίζεται ως:
+\[
+\text{Syllable Avg} = \frac{\text{Total Syllables Count}}{\text{Total Words Count}}
+\]
+
+\subsubsection{Polysyllabic Word Ratio}
+
+Μετρά την αναλογία των πολυσύλλαβων λέξεων:
+\[
+\text{Polysyllabic Ratio} = \frac{\text{Polysyllabic Words Count}}{\text{Total Words Count}}
+\]
+όπου πολυσύλλαβες είναι οι λέξεις με περισσότερες από τρεις συλλαβές.
+
+\subsection{Δομικοί και Στυλιστικοί Δείκτες}
+
+\subsubsection{Average Sentence Length}
+
+Το μέσο μήκος προτάσεων υπολογίζεται με βάση τον αριθμό λέξεων:
+\[
+\text{Avg Sentence Length} = \frac{\text{Total Words}}{\text{Total Sentences}}
+\]
+
+\subsubsection{Pronoun Usage Proportion}
+
+Υπολογίζει την αναλογία των αντωνυμιών στο κείμενο:
+\[
+\text{Pronoun Proportion} = \frac{\text{Pronoun Count}}{\text{Total Words Count}}
+\]
+Οι αντωνυμίες που περιλαμβάνονται είναι: \textit{"I", "you", "he", "she", "it", "we", "they", "me", "us", "him", "her", "them"}.
+
+\subsubsection{Formality Measure}
+
+Ο δείκτης επισημότητας μετράται ως εξής:
+\[
+\text{Formality} = \frac{\text{Noun Count} + \text{Adjective Count}}{\text{Pronoun Count} + \text{Verb Count} + 0.01}
+\]
+Μεγαλύτερη τιμή υποδηλώνει πιο επίσημο ύφος γραφής.
+
+\subsection{Σύνοψη χαρακτηριστικών}
+Ο πίνακας~\autoref{tab:features} περιλαμβάνει συνοπτικά όλα τα χαρακτηριστικά που εξάγονται στην παρούσα εργασία:
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|}
+\hline
+\textbf{Χαρακτηριστικό} & \textbf{Κατηγορία} \\
+\hline
+Char Count (Normalized) & Character-based Features \\
+Character N-grams (3-grams) Ratio & Character-based Features \\
+Uppercase Proportion & Character-based Features \\
+Digit Proportion & Character-based Features \\
+Punctuation Proportion & Character-based Features \\
+Type-Token Ratio & Lexical and Syntactical Features \\
+Average Word Length & Lexical and Syntactical Features \\
+Part-of-Speech Ratios & Lexical and Syntactical Features \\
+Pronoun Usage Proportion & Lexical and Syntactical Features \\
+Past Tense Ratio & Lexical and Syntactical Features \\
+Readability Score & Complexity and Readability Indicators \\
+Syllable Avg & Complexity and Readability Indicators \\
+Polysyllabic Word Ratio & Complexity and Readability Indicators \\
+Stop Word Density & Structure and Style Indicators \\
+Avg Sentence Length & Structure and Style Indicators \\
+Formality Measure & Structure and Style Indicators \\
+\hline
+\end{tabular}
+\caption{Κατηγοριοποίηση Χαρακτηριστικών Εξαγωγής}
+\label{tab:features}
+\end{table}
+
+\subsection{Εργαλεία και Μέθοδοι Εξαγωγής Χαρακτηριστικών}
+
+Η συνάρτηση \texttt{extract\_features} είναι η κύρια μέθοδος εξαγωγής χαρακτηριστικών στο σύστημα αυθεντικοποίησης χρηστών. Η συνάρτηση λαμβάνει ως είσοδο ένα κείμενο (\texttt{text}), το οποίο μπορεί να περιλαμβάνει προτάσεις, παραγράφους ή μεγαλύτερα τμήματα γραπτού λόγου. Επεξεργάζεται το κείμενο και εξάγει ένα σύνολο χαρακτηριστικών, τα οποία επιστρέφονται ως ένα πολυδιάστατο διάνυσμα (\texttt{list of feature values}).
+
+Η έξοδος της συνάρτησης περιλαμβάνει τιμές για όλα τα χαρακτηριστικά που περιγράφηκαν στις προηγούμενες υποενότητες, όπως οι αναλογίες χαρακτήρων, λέξεων, στατιστικά στυλ, αναγνωσιμότητα και άλλοι δείκτες. Το διάνυσμα αυτό αποτελεί την είσοδο για τα επόμενα στάδια ανάλυσης, εκπαίδευσης αλλά και αξιολόγησης, επιτρέποντας την αποτελεσματική αυθεντικοποίηση χρηστών.

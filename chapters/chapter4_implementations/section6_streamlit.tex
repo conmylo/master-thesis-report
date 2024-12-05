@@ -1,0 +1,47 @@
+\section{Παρουσίαση Διεπαφής Χρήστη}
+\label{sec:implementations_streamlit}
+
+Το κεφάλαιο αυτό παρουσιάζει το γραφικό περιβάλλον χρήστη που αναπτύχθηκε μέσω της βιβλιοθήκης Streamlit\footnote{\url{https://streamlit.io/}}, το οποίο σχεδιάστηκε για να υλοποιεί τη διαδικασία συνεχούς και έμμεσης αυθεντικοποίησης. Το περιβάλλον αυτό επιτρέπει την αλληλεπίδραση του χρήστη με το σύστημα μέσω απλών και κατανοητών λειτουργιών.
+
+Η ενσωμάτωση του Streamlit UI επιτρέπει την άμεση αλληλεπίδραση των χρηστών με το σύστημα. Οι βασικές λειτουργίες περιλαμβάνουν:
+\begin{itemize}
+    \item \textbf{Εισαγωγή Username}: Ο χρήστης εισάγει ένα username μέσω του UI.
+    \item \textbf{Εισαγωγή Prompt}: Ο χρήστης εισάγει ένα prompt μέσω του UI.
+    \item \textbf{Κουμπί Αυθεντικοποίησης}: Το σύστημα εμφανίζει τα αποτελέσματα της απόφασης (γνήσιος χρήστης ή εισβολεάς) και το επίπεδο εμπιστοσύνης.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{images/chapter4/streamlitUI.png}
+    \caption{Περιβάλλον Χρήστη του Streamlit UI}
+    \label{fig:streamlit_ui}
+\end{figure}
+
+Η διαδικασία αυθεντικοποίησης βασίζεται στην πρόβλεψη που πραγματοποιεί το μοντέλο, ενώ η εφαρμογή επιστρέφει είτε "Access Granted" είτε "Access Denied" συνοδευόμενη από τη βαθμολογία βεβαιότητας (\textit{certainty score}) της απόφασης. Ο πλήρης κώδικας βρίσκεται στο \emph{Github}\footnote{\href{https://github.com/conmylo/master-thesis/tree/main/final}{https://github.com/conmylo/master-thesis/tree/main/final}}.
+
+\subsection{Παραδείγματα Χρήσης}
+Παρακάτω παρουσιάζονται παραδείγματα από τη λειτουργία του Streamlit UI.
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}{\textwidth}
+        \centering
+        \includegraphics[width=0.75\textwidth]{images/chapter4/streamlitGrant.png}
+        \caption{Παράδειγμα έγκρισης αυθεντικοποίησης με υψηλό certainty score.}
+        \label{fig:streamlitGrant}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{\textwidth}
+        \centering
+        \includegraphics[width=0.75\textwidth]{images/chapter4/streamlitDeny.png}
+        \caption{Παράδειγμα απόρριψης αυθεντικοποίησης με χαμηλό certainty score.}
+        \label{fig:streamlitDeny}
+    \end{subfigure}
+    \caption{Στιγμιότυπα οθόνης από το streamlit UI για επιβεβαίωση και απόρριψη αυθεντικοποίησης}
+    \label{fig:subgraphs}
+\end{figure}
+
+Στην εικόνα \ref{fig:streamlitGrant}, ο χρήστης "barackobama" εισάγει ένα prompt που το σύστημα αναγνωρίζει ως έγκυρο, παραχωρώντας την πρόσβαση με certainty score 0.52.
+
+Στην εικόνα \ref{fig:streamlitDeny}, ο ίδιος χρήστης εισάγει ένα prompt που το σύστημα αξιολογεί ως μη έγκυρο, απορρίπτοντας την πρόσβαση με certainty score 0.35.
+

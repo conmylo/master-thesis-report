@@ -1,0 +1,77 @@
+\section{Δεύτερη Φάση Πειραμάτων: Basic Majority Voting}
+\label{sec:experiments_phase2}
+
+\subsection{Πειραματική Διαδικασία}
+Η πειραματική διαδικασία της δεύτερης φάσης επικεντρώνεται στη χρήση πολλαπλών μοντέλων για κάθε χρήστη και την εφαρμογή του απλού πλειοψηφικού μοντέλου (basic majority voting) όπως έχει παρουσιαστεί στο \autoref{sec:implementation_decision}. Παρακάτω περιγράφονται αναλυτικά τα βήματα της διαδικασίας.
+
+\subsubsection{Διαδικασία Ελέγχου}
+Για κάθε χρήστη του συστήματος, δημιουργούνται και εκπαιδεύονται πολλαπλά μοντέλα \emph{One-Class SVM} με διαφορετικούς συνδυασμούς υπερπαραμέτρων. Οι παράμετροι που χρησιμοποιούνται είναι:
+
+\begin{itemize}
+    \item \textbf{Νu} (\emph{nu}): Η υπερπαράμετρος \emph{nu} ελέγχει το ποσοστό των υποδειγμάτων που θεωρούνται outliers. Οι τιμές που εξετάζονται είναι:
+    \[
+    \nu \in \{0.001, 0.005, 0.01\}
+    \]
+    \item \textbf{Γάμμα} ($\gamma$): Η παράμετρος $\gamma$ επηρεάζει τη μορφή της συνάρτησης πυρήνα (\emph{kernel function}). Οι τιμές που δοκιμάζονται είναι:
+    \[
+    \gamma \in \{0.01, 0.05, 0.1\}
+    \]
+    \item \textbf{Κατώφλι Αποδοχής} (\emph{Acceptance Threshold}): Σύμφωνα με το \autoref{sec:experiments_phase1} καθορίζεται σε:
+    \[
+    \text{Threshold} = 0.05
+    \]
+\end{itemize}
+
+
+\subsubsection{Καταγραφή και Ανάλυση Αποτελεσμάτων}
+Για κάθε χρήστη, καταγράφονται:
+\begin{itemize}
+    \item Οι τιμές των μετρικών \emph{False Rejection Rate (FRR)} και \emph{False Acceptance Rate (FAR)}.
+    \item Ο αριθμός από γνήσια και μη γνήσια prompts στον οποίο εφαρμόζεται ο έλεγχος.
+\end{itemize}
+
+\subsection{Αποτελέσματα Ανά Χρήστη από τη Συνάρτηση Basic Majority Voting}
+\label{subsec:basic_majority_results}
+
+Στον παρακάτω πίνακα παρουσιάζονται τα αποτελέσματα για διαφορετικούς χρήστες, όπως καταγράφηκαν κατά τη διάρκεια των πειραμάτων:
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|c|c|c|c|}
+\hline
+\textbf{User} & \textbf{FAR (\%)} & \textbf{FRR (\%)} & \textbf{Total Genuine Tests} & \textbf{Total Impostor Tests} \\ \hline
+justinbieber & 92.54 & 4.75 & 295 & 295 \\ \hline
+taylorswift13 & 88.78 & 4.95 & 303 & 303 \\ \hline
+BarackObama & 33.49 & 3.02 & 430 & 430 \\ \hline
+YouTube & 79.00 & 4.55 & 462 & 462 \\ \hline
+ladygaga & 86.09 & 4.35 & 345 & 345 \\ \hline
+TheEllenShow & 74.21 & 5.07 & 473 & 473 \\ \hline
+Twitter & 74.13 & 4.65 & 344 & 344 \\ \hline
+jtimberlake & 86.29 & 4.84 & 372 & 372 \\ \hline
+britneyspears & 87.50 & 6.25 & 416 & 416 \\ \hline
+Cristiano & 85.11 & 3.19 & 376 & 376 \\ \hline
+cnnbrk & 25.27 & 3.97 & 277 & 277 \\ \hline
+jimmyfallon & 84.43 & 6.61 & 469 & 469 \\ \hline
+shakira & 76.78 & 3.96 & 379 & 379 \\ \hline
+instagram & 59.43 & 4.65 & 387 & 387 \\ \hline
+\end{tabular}
+\caption{Αποτελέσματα από τη χρήση της Basic Majority Voting για διαφορετικούς χρήστες.}
+\label{tab:tab_basic_majority_results}
+\end{table}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{images/chapter5/5.2.png}
+    \caption{FAR \& FRR ανά χρήστη με τη χρήση της Basic Majority Voting}
+    \label{fig:chapter5_image52}
+\end{figure}
+
+\subsection{Παρατηρήσεις}
+Η παραπάνω ανάλυση δείχνει σημαντική ποικιλομορφία στις επιδόσεις του συστήματος, κυρίως στη μετρική FAR, ανάλογα με τον χρήστη. Συγκεκριμένα:
+\begin{itemize}
+    \item Παρατηρείται μεγάλη ανισορροπία μεταξύ των τιμών FAR (πολύ υψηλές) και των τιμών FRR (ικανοποιητικά χαμηλές). Η μεταβλητότητα στις μετρικές δείχνει την ανάγκη για πιο εξελιγμένες τεχνικές λήψης απόφασης, όπως η \emph{Weighted Majority Voting}, που αναλύεται στα επόμενα υποκεφάλαια.
+    \item Χρήστες όπως οι \texttt{justinbieber} και \texttt{taylorswift13} παρουσιάζουν πολύ υψηλά ποσοστά \emph{FAR}, κάτι που δείχνει αυξημένη πιθανότητα αποδοχής εισβολέων.
+    \item Οι χρήστες \texttt{cnnbrk} και \texttt{BarackObama} έχουν εξαιρετικά χαμηλά ποσοστά \emph{FAR}, κάτι που υποδεικνύει ότι τα μοντέλα τους είναι πιο αυστηρά απέναντι σε εισβολείς.
+\end{itemize}
+
+Τα παραπάνω αποτελέσματα υποδηλώνουν την ανάγκη βελτιστοποίησης του συστήματος μέσω διαφορετικών τεχνικών.
