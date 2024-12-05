@@ -1,4 +1,4 @@
-# master_thesis_latex
+# Master Thesis Latex
 LaTeX directory for diploma thesis report
 
 ## Install Latex on various platforms
